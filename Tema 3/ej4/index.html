@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="#" method="get">
+        <input type="text" placeholder="nombre" id="name"><br>
+        <input type="text" placeholder="apellidos" id="surname"><br>
+        <input type="email" name="email" id="email" placeholder="email"><br>
+        <input type="text" placeholder="poblacion" id="city"><br>
+        <input type="text" placeholder="provincia" id="province"><br>
+        <p>Edad:</p>
+        <input type="radio" name="edad" value="0-20">0-20 <br>
+        <input type="radio" name="edad" value="20-40">20-40 <br>
+        <input type="radio" name="edad" value="40-60">40-60 <br>
+        <input type="radio" name="edad" value="60-100">60-100 <br>
+    
+        <p>Como nos has conocido</p>
+        <input type="checkbox" name="conocido" class="known" id="friend" value="friend"> amigo <br>
+        <input type="checkbox" name="conocido" class="known" id="buscador" value="searcher"> buscador <br>
+        <input type="checkbox" name="conocido" class="known" id="red" value="net"> red <br>
+        <input type="checkbox" name="conocido" class="known" id="otros" value="other"> otros <br>
+
+        <button type="submit" id="submit" onclick="send()">Enviar</button>
+        <button type="reset">Borrar</button>
+    </form>
+
+<script src="./script.js"></script>
+</body>
+</html>

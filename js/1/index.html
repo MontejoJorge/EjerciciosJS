@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Contactos</h1>
+    <button id="add" onclick="addContact()">Añadir</button>
+    <button id="search" onclick="searchContact()">Buscar</button><br><br>
+
+<div id="uno">
+    <h2>Añadir contacto</h2>
+    <input type="text" id="name" placeholder="nombre"><br>
+    <input type="text" id="org" placeholder="organizacion"><br>
+    <input type="text" id="number" placeholder="movil"><br>
+    <button id="b1" onclick="saveContact()">Aceptar</button>
+</div>
+<div id="dos">
+    <h2>Buscar</h2>
+    <input type="text" placeholder="nombre"><br>
+    <select name="orgs" id="sOrg">
+        
+    </select>
+    <button id="b2">Aceptar</button>
+</div>
+
+</body>
+<script src="./script.js"></script>
+</html>
