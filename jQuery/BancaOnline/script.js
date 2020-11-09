@@ -5,25 +5,34 @@ $(document).ready( function(){
 
     numbers = shuffle(numbers);
 
+    //poner un numero aleatorio en los botones
     for (let i = 0; i < buttons.length; i++) {
         buttons.eq(i).html(numbers[i]);
         buttons.eq(i).val(numbers[i]);
     }
 
+    //añadir el numero de los botones al campo de la contraseña
     buttons.on("click", function(){
         let number = $(this).val();
         let passwordInput = $("#password");
         passwordInput.val($("#password").val()+number);
     })
 
+    //evento para el boton de login
     let loginButton = $("#loginButton");
-
     loginButton.on("click", function(){
         // TODO validar datos de entrada
+        var dni = $("#dni").val();
+        var password = $("#password").val();
+
+        //TODO users is undefined?
+        alert(users.size());
         
         for (let i = 0; i < users.length; i++) {
-            use
-            
+            alert(dni);
+            if (dni = users[i].dni){
+                alert("sisas");
+            }
         }
 
 
@@ -47,9 +56,9 @@ $(document).ready( function(){
     function createData(){
         var users = [];
         let u1 = {dni: "72852285S", clave:123987};
-        var u2 = {dni: "12345678A", clave:123456};
-        var u3 = {dni: "87654321B", clave:987654};
-
+        let u2 = {dni: "12345678A", clave:123456};
+        let u3 = {dni: "87654321B", clave:987654};
         users.push(u1,u2,u3);
+        console.log(users);
     }
 });
