@@ -1,7 +1,8 @@
-$(document).ready( function(){
+var users = [];
+$(document).ready(function () {
     createData();
     var buttons = $("button");
-    var numbers = [0,1,2,3,4,5,6,7,8,9];
+    var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     numbers = shuffle(numbers);
 
@@ -12,53 +13,58 @@ $(document).ready( function(){
     }
 
     //añadir el numero de los botones al campo de la contraseña
-    buttons.on("click", function(){
-        let number = $(this).val();
-        let passwordInput = $("#password");
-        passwordInput.val($("#password").val()+number);
-    })
+    buttons.on("click", inputPassword);
 
     //evento para el boton de login
     let loginButton = $("#loginButton");
-    loginButton.on("click", function(){
+    loginButton.on("click", searchUser);
+})
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (0 !== currentIndex) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+function createData() {
+    let u1 = { dni: "72852285S", password: 123987 };
+    let u2 = { dni: "12345678A", password: 123456 };
+    let u3 = { dni: "87654321B", password: 987654 };
+    users.push(u1, u2, u3);
+}
+function inputPassword() {
+    let number = $(this).val();
+    let passwordInput = $("#password");
+    passwordInput.val($("#password").val() + number);
+}
+function searchUser() {
+    try {
         // TODO validar datos de entrada
         var dni = $("#dni").val();
         var password = $("#password").val();
 
-        //TODO users is undefined?
-        alert(users.size());
-        
+        //regex
+        let dniReg = new RegExp("^([0-9]{8}[A-z]{1})$");
+        let passReg = new RegExp("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
+
+        if (!dniReg.test(dni)&&!passReg.test(password)){
+            throw "Los datos introducidos no son validos";
+        }
+
         for (let i = 0; i < users.length; i++) {
-            alert(dni);
-            if (dni = users[i].dni){
-                alert("sisas");
+            if (dni == users[i].dni && password == users[i].password) {
+                alert("Login successfull");
+                break;
             }
         }
-
-
-    })
-
-    function shuffle(array){
-        var currentIndex = array.length, temporaryValue, randomIndex;
-
-        while (0 !== currentIndex) {
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex -= 1;
-
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
-        }
-      
-        return array;
+    } catch (error) {
+        alert(error);
     }
-
-    function createData(){
-        var users = [];
-        let u1 = {dni: "72852285S", clave:123987};
-        let u2 = {dni: "12345678A", clave:123456};
-        let u3 = {dni: "87654321B", clave:987654};
-        users.push(u1,u2,u3);
-        console.log(users);
-    }
-});
+}
