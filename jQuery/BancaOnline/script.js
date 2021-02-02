@@ -1,6 +1,6 @@
 var users = [];
 var cuentas = [];
-movimientos = [];
+var movimientos = [];
 $(document).ready(function () {
     createData();
     var buttons = $("button");
@@ -84,8 +84,8 @@ function searchUser() {
 
         for (let i = 0; i < users.length; i++) {
             if (dni == users[i].dni && password == users[i].password) {
+                document.cookie = "user="+dni;
                 window.location.replace("http://192.168.56.1:5500/home.html");
-                searchAccount(users[i].dni);
                 break;
             }
         }
