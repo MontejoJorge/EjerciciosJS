@@ -1,3 +1,12 @@
+"use strict";
+exports.__esModule = true;
+var $ = require("jquery");
+var Proyecto = /** @class */ (function () {
+    function Proyecto(proyecto) {
+        this.proyecto = proyecto;
+    }
+    return Proyecto;
+}());
 var User = /** @class */ (function () {
     function User(username, password) {
         this.username = username;
@@ -5,16 +14,11 @@ var User = /** @class */ (function () {
     }
     return User;
 }());
-var Proyecto = /** @class */ (function () {
-    function Proyecto(usuario, proyecto) {
-        this.usuario = usuario;
-        this.proyecto = proyecto;
-    }
-    return Proyecto;
-}());
+//Usuario por defecto
 var user1 = new User("jorge", "Jm12345");
+user1.proyectos = [new Proyecto("proc1"), new Proyecto("proc2")];
 var usuarios = [user1];
-var storage = localStorage.getItem("users");
+var storage = JSON.parse(localStorage.getItem("users"));
 if (storage == null) {
     localStorage.setItem('users', JSON.stringify(usuarios));
 }
@@ -23,27 +27,39 @@ $(document).ready(function () {
     $("#login").click(function () {
         var username = $("#username").val();
         var password = $("#password").val();
-        for (var i = 0; i < usuarios.length; i++) {
+        //Recojo los usuarios
+        var usuarios = JSON.parse(localStorage.getItem("users"));
+        var encontrado = false;
+        //Busco si los datos coindiden con los que hay guardados
+        for (var i = 0; i < usuarios.length && encontrado == false; i++) {
             if (usuarios[i].username == username && usuarios[i].password == password) {
-                setCookie("user", username, 100);
-                var bgColor = prompt("Que color quires de fondo? (ej: red, green, blue ...", "white");
-                setCookie("color", bgColor, 100);
-                home();
+                encontrado = true;
             }
+        }
+        if (encontrado) {
+            //si el usuario se ha encontrado lo guardamos en cookie y preguntamos el color
+            setCookie("user", username, 100);
+            var bgColor = prompt("Que color quires de fondo? (ej: red, green, blue ...", "white");
+            setCookie("color", bgColor, 100);
+            //llamamos a la funcion que carga los proyectos
+            home();
+        }
+        else {
+            alert("el usuario no existe o la contraseña es incorrecta");
         }
     });
     $("#register").click(function () {
         var username = $("#username").val();
         var password = $("#password").val();
+        //Buscamos si hay algun usuario ya con ese nombre
         var userExist = false;
-        for (var i = 0; i < usuarios.length; i++) {
+        localStorage.getItem("users");
+        for (var i = 0; i < usuarios.length && userExist == false; i++) {
             if (usuarios[i].username == username) {
                 userExist = true;
             }
         }
         if (!userExist) {
-            var username = $("#username").val();
-            var password = $("#password").val();
             var user = new User(username, password);
             usuarios.push(user);
             localStorage.setItem('users', JSON.stringify(usuarios));
@@ -60,41 +76,44 @@ function home() {
     generateList(getCookie("user"));
     $("#añadir").click(function () {
         var textProyecto = prompt("introduce el proyecto");
-        var proyecto = new Proyecto(getCookie("user"), textProyecto);
-        var proyectos = JSON.parse(localStorage.getItem("proyectos"));
-        if (proyectos == null) {
-            proyectos = [proyecto];
-            localStorage.setItem("proyectos", JSON.stringify(proyectos));
+        var proyecto = new Proyecto(textProyecto);
+        //No puedo asignar el tipo User[] a datos por que luego no me dejaria llamar a findIndex
+        var datos = JSON.parse(localStorage.getItem("users"));
+        //Busco la posicion del usuario loggeado
+        var index = datos.findIndex(function (x) { return x.username == getCookie("user"); });
+        //Segun la posicion del usuario loggeado busco en sus proyectos
+        if (datos[index].proyectos != null) {
+            //Si el usuario tenia proyectos le añado uno
+            datos[index].proyectos.push(proyecto);
         }
         else {
-            proyectos.push(proyecto);
-            localStorage.setItem("proyectos", JSON.stringify(proyectos));
+            //Si el usuario no tenia proyectos le creamos un array con el proyecto que acaba de crear
+            datos[index].proyectos = [proyecto];
         }
+        localStorage.setItem("users", JSON.stringify(datos));
         generateList(getCookie("user"));
     });
     $("#borrar").click(function () {
         var proyectDelete = prompt("introduce el titulo del proyecto a borrar");
-        var proyectos = JSON.parse(localStorage.getItem("proyectos"));
-        for (var i = 0; i < proyectos.length; i++) {
-            if (proyectos[i].usuario == getCookie("user") && proyectos[i].proyecto == proyectDelete) {
-                delete proyectos[i];
-                localStorage.removeItem("proyectos");
-                if (proyectos != null) {
-                    localStorage.setItem("proyectos", JSON.stringify(proyectos));
-                }
-            }
-        }
+        var datos = JSON.parse(localStorage.getItem("users"));
+        //Busco la posicion del usuario loggeado
+        var index = datos.findIndex(function (x) { return x.username == getCookie("user"); });
+        //Segun la posicion del usuario loggeado busco el proyecto que quiere borrar
+        var indexToDelete = datos[index].proyectos.findIndex(function (x) { return x.proyecto == proyectDelete; });
+        datos[index].proyectos.splice(indexToDelete, 1);
+        localStorage.setItem("users", JSON.stringify(datos));
         generateList(getCookie("user"));
     });
 }
 function generateList(usuario) {
-    var proyectos = JSON.parse(localStorage.getItem("proyectos"));
+    var datos = JSON.parse(localStorage.getItem("users"));
     $("#listaProyectos").empty();
-    if (proyectos != null) {
-        for (var i = 0; i < proyectos.length; i++) {
-            if (proyectos[i].usuario == getCookie("user")) {
-                $("#listaProyectos").append("<li>" + proyectos[i].proyecto + "</li>");
+    for (var i = 0; i < datos.length; i++) {
+        if (datos[i].username == getCookie("user") && datos[i].proyectos != null) {
+            for (var a = 0; a < datos[i].proyectos.length; a++) {
+                $("#listaProyectos").append("<li>" + datos[i].proyectos[a].proyecto + "</li>");
             }
+            break;
         }
     }
 }
