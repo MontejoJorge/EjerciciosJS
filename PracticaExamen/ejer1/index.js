@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-var $ = require("jquery");
 var Proyecto = /** @class */ (function () {
     function Proyecto(proyecto) {
         this.proyecto = proyecto;

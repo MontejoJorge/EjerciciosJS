@@ -1,4 +1,3 @@
-import * as $ from "jquery";
 class Proyecto {
     proyecto: string;
     constructor(proyecto:string) {
