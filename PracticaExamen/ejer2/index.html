@@ -5,16 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-
-    <div id="crearCueta">
+    <button id="form">Cambiar formulario</button>
+    <div id="crearCuenta">
         <h2>Crea tu cuenta de google</h2>
-        <input type="text" id="nombre" required><br>
-        <input type="email" id="email" required><br>
-        <input type="password" id="contraseña" required>
-        <input type="password" id="contraseña2"><br>
-        <input type="radio" name="gender" id="hombre"><label for="hombre">Hombre</label>
-        <input type="radio" name="gender" id="mujer"><label for="mujer">Mujer</label><br>
+        <input type="text" id="nombre"><br>
+        <input type="email" id="email"><br>
+        <input type="password" id="contraseña"  value="Jm12345">
+        <input type="password" id="contraseña2" value="Jm12345"><br>
+        <input type="radio" name="gender" value="hombre" id="hombre">
+        <label for="hombre">Hombre</label>
+        <input type="radio" name="gender" value="mujer" id="mujer">
+        <label for="mujer">Mujer</label><br>
         <input type="submit" id="crear" value="Crear">
+    </div>
+    <div id="loginForm">
+        <h2>Iniciar sesion</h2>
+        <input type="email" id="emailLogin" value="jorgemon.lopez@gmail.com"><br>
+        <input type="password" id="contraseñaLogin"  value="Jm12345">
+        <input type="submit" id="login" value="Iniciar sesion">
+    </div>
+    <div id="mensajes">
+        <h2>Mensajes</h2>
+        <ul id="mensajesList">
+
+        </ul>
     </div>
 
 <script src="./jquery-3.5.1.js"></script>
